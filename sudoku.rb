@@ -1,12 +1,13 @@
 require 'sinatra'
 require 'sinatra/partial'
+require 'rack-flash'
 require_relative './lib/sudoku'
 require_relative './helpers/application'
 
 set :partial_template_engine, :erb
 enable :sessions
 
-
+use Rack::Flash
 
 
 def random_sudoku
@@ -32,6 +33,9 @@ end
 
 def prepare_to_check_solution
   	@check_solution = session[:check_solution]
+  	if @check_solution
+  		flash[:notice] = "Incorrect values are highlighted in yellow"
+  	end
   	session[:check_solution] = nil
 end
 							

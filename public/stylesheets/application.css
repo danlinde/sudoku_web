@@ -1,8 +1,11 @@
+#flash{
+	margin: 20px;
+}
+
 #sudoku {
   font-size: 0;
   text-align: center;
 }
-
 
 .header {
 	text-align: center;
