@@ -19,9 +19,7 @@ def random_sudoku
 end
 
 def puzzle(sudoku)
-	# this method removes some of the digits
-	# from the puzzle and is for me to implement
-	sudoku
+    sudoku.map {|v| rand < 0.3 ? 0 : v }
 end
 
 def generate_new_puzzle_if_necessary
@@ -39,25 +37,47 @@ def prepare_to_check_solution
   	end
   	session[:check_solution] = nil
 end
-							
 
 get '/' do
-	prepare_to_check_solution
-  	generate_new_puzzle_if_necessary
-  	@current_solution = session[:current_solution] || session[:puzzle]
+	  prepare_to_check_solution
+    generate_new_puzzle_if_necessary
+  	@current_solution = session[:current_solution]
   	@solution = session[:solution]
   	@puzzle = session[:puzzle]
-	erb :index
+	  erb :index
 end
 
 post '/' do
-  cells = params["cell"]
+  boxes = params["cell"].each_slice(9).to_a
+  cells = (0..8).to_a.inject([]) {|memo, i|
+    memo += boxes[i/3*3, 3].map{|box| box[i%3*3, 3] }.flatten
+  }
   session[:current_solution] = cells.map{|value| value.to_i }.join
   session[:check_solution] = true
   redirect to("/")
 end
 
+post '/restart' do
+  session[:current_solution] = session[:puzzle]
+  redirect to("/")
+end
+
 get '/solution' do
   @current_solution = session[:solution]
+  @solution = session[:solution]
+  @puzzle = session[:solution]
   erb :index
+end
+
+get '/form' do
+  erb :form
+end
+
+post '/form' do
+  "You entered '#{params[:message]}'"
+end
+
+not_found do
+  status 404
+  "No page found"
 end

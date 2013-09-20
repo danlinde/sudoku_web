@@ -1,10 +1,12 @@
 #flash{
 	margin: 20px;
+	text-align: center;
+	background-color: yellow;
 }
 
 #sudoku {
-  font-size: 0;
-  text-align: center;
+	font-size: 0;
+	text-align: center;
 }
 
 .header {
@@ -12,13 +14,17 @@
 }
 
 div.box, div.cell {
-  display: inline-block;
+  	display: inline-block;
+}
+
+div.box {
+	outline: 2px solid black;
 }
 
 .cell input {
-  width: 30px;
-  height: 30px;
-  text-align: center;
+	width: 30px;
+	height: 30px;
+	text-align: center;
 }
 
 .incorrect {
