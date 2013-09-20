@@ -10,6 +10,10 @@ set :session_secret, "I'm the secret key to sign the cookie"
 
 use Rack::Flash
 
+configure :production do
+  require 'newrelic_rpm'
+end
+
 
 def random_sudoku
     seed = (1..9).to_a.shuffle + Array.new(81-9, 0)
